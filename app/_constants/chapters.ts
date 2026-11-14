@@ -22,26 +22,8 @@ export const CHAPTERS: Chapter[] = [
 	},
 	{
 		slug: "chapter-2",
-		label: "Chapter 2: Field notes",
+		label: "Chapter 2",
 		pageCount: 0,
-		publishedAt: "2026-01-01T00:00:00Z",
-	},
-	{
-		slug: "chapter-3",
-		label: "Chapter 3: Unscheduled contact",
-		pageCount: 0,
-		publishedAt: "2026-01-01T00:00:00Z",
-	},
-	{
-		slug: "chapter-4",
-		label: "Chapter 4: After-action report",
-		pageCount: 0,
-		publishedAt: "2026-01-01T00:00:00Z",
-	},
-	{
-		slug: "chapter-5",
-		label: "Chapter 5: Briefing room",
-		pageCount: 0,
-		publishedAt: "2026-01-01T00:00:00Z",
+		publishedAt: "2099-01-01T00:00:00Z",
 	},
 ];

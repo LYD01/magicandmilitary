@@ -1,10 +1,9 @@
 import Link from "next/link";
 
-import { getPublishedChapters } from "@/lib/publishedChapters";
+import { CHAPTERS } from "@constants";
+import { isChapterReadable } from "@/lib/publishedChapters";
 
-export async function ChapterList() {
-	const chapters = await getPublishedChapters();
-
+export function ChapterList() {
 	return (
 		<section
 			className="w-full max-w-md px-4 sm:px-6"
@@ -14,11 +13,18 @@ export async function ChapterList() {
 				Chapters
 			</h2>
 			<ol className="list-decimal space-y-2 pl-6 text-base leading-relaxed sm:text-lg">
-				{chapters.map((chapter) => (
+				{CHAPTERS.map((chapter) => (
 					<li key={chapter.slug}>
-						<Link className="link-classic" href={`/${chapter.slug}`}>
-							{chapter.label}
-						</Link>
+						{isChapterReadable(chapter) ? (
+							<Link className="link-classic" href={`/${chapter.slug}`}>
+								{chapter.label}
+							</Link>
+						) : (
+							<span>
+								{chapter.label}{" "}
+								<span className="text-foreground/75">(Coming soon)</span>
+							</span>
+						)}
 					</li>
 				))}
 			</ol>
