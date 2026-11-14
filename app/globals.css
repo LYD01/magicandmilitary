@@ -67,6 +67,22 @@ body {
 	user-select: none;
 }
 
+/** Watermark is invisible until a copy attempt (see `useContentGuard`). */
+.reader-watermark {
+	opacity: 0;
+	transition: opacity 150ms ease-out;
+}
+
+.reader[data-guard-revealed="true"] .reader-watermark {
+	opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.reader-watermark {
+		transition: none;
+	}
+}
+
 .reader[data-guard-hidden="true"] img {
 	visibility: hidden;
 }

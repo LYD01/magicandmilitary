@@ -4,16 +4,16 @@ Chapter pages are private UploadThing files, served only through `app/api/pages/
 
 ## What each control stops
 
-| Control                                                                    | Stops                                                 | Bypassed by                                           |
-| -------------------------------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
-| Private ACL on UploadThing                                                 | Guessing or sharing a plain `ufs.sh` URL              | Nothing without the API key                           |
-| Random page ids in `/api/pages/<id>`                                       | Enumerating pages, learning file keys                 | Loading the chapter page (ids are in its HTML)        |
-| `Sec-Fetch-Site` check                                                     | Hotlinking from other sites, opening the URL directly | Any non-browser client that sets the header           |
-| Vercel Firewall rate limit (configure in the dashboard for `/api/pages/*`) | Bulk scraping from one source                         | Distributed scraping                                  |
-| `publishedAt`                                                              | Early access to unreleased chapters                   | Nothing (the proxy returns 404 until the time passes) |
-| Context menu, drag, selection, print CSS                                   | Casual "save image" and print                         | DevTools, extensions, screenshots                     |
-| Blanking while the tab is hidden                                           | Some background capture tools                         | Foreground screenshots and recordings                 |
-| Visible watermark                                                          | Makes reposting less appealing, carries the site name | Deleting the overlay in DevTools, cropping            |
+| Control                                                                                                       | Stops                                                 | Bypassed by                                                                  |
+| ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Private ACL on UploadThing                                                                                    | Guessing or sharing a plain `ufs.sh` URL              | Nothing without the API key                                                  |
+| Random page ids in `/api/pages/<id>`                                                                          | Enumerating pages, learning file keys                 | Loading the chapter page (ids are in its HTML)                               |
+| `Sec-Fetch-Site` check                                                                                        | Hotlinking from other sites, opening the URL directly | Any non-browser client that sets the header                                  |
+| Vercel Firewall rate limit (configure in the dashboard for `/api/pages/*`)                                    | Bulk scraping from one source                         | Distributed scraping                                                         |
+| `publishedAt`                                                                                                 | Early access to unreleased chapters                   | Nothing (the proxy returns 404 until the time passes)                        |
+| Context menu, drag, selection, print CSS                                                                      | Casual "save image" and print                         | DevTools, extensions, screenshots                                            |
+| Blanking while the tab is hidden                                                                              | Some background capture tools                         | Foreground screenshots and recordings                                        |
+| Watermark shown only on copy attempts (right-click, drag, long-press, PrintScreen / Cmd+Shift+3/4/5), for 5 s | Makes reposting less appealing, carries the site name | Screenshot tools with no key shortcut (snipping UI, phone buttons), DevTools |
 
 DevTools Network always shows the proxied bytes. Accepting that is part of the design.
 

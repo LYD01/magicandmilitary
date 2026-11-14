@@ -25,17 +25,18 @@ const WATERMARK_BACKGROUND = `url("data:image/svg+xml,${encodeURIComponent(
 )}")`;
 
 /**
- * Client leaf: lazy-loaded page images from the same-origin proxy, a visible
- * watermark overlay, and light copy deterrents. See `docs/audits/reader-protection.md`.
+ * Client leaf: lazy-loaded page images from the same-origin proxy, a watermark
+ * overlay that appears only on copy attempts, and light copy deterrents. See `docs/audits/reader-protection.md`.
  */
 export function ProtectedReader({ chapterSlug, pages }: ProtectedReaderProps) {
-	const { hidden, guardProps } = useContentGuard();
+	const { hidden, revealed, guardProps } = useContentGuard();
 
 	return (
 		<section
 			aria-label="Chapter pages"
 			className="reader mx-auto flex w-full max-w-3xl flex-col gap-2"
 			data-guard-hidden={hidden}
+			data-guard-revealed={revealed}
 			{...guardProps}
 		>
 			{pages.map((page, index) => (
@@ -60,7 +61,7 @@ export function ProtectedReader({ chapterSlug, pages }: ProtectedReaderProps) {
 					{/* eslint-enable @next/next/no-img-element */}
 					<div
 						aria-hidden="true"
-						className="pointer-events-none absolute inset-0"
+						className="reader-watermark pointer-events-none absolute inset-0"
 						style={{ backgroundImage: WATERMARK_BACKGROUND }}
 					/>
 					<BookmarkToggle slug={chapterSlug} page={index + 1} />
