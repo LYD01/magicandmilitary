@@ -60,9 +60,8 @@ export function SiteFooter() {
 					))}
 				</ul>
 			</nav>
-			<p className="mt-4 text-center text-sm text-foreground/80">
+			<p hidden>
 				<a
-					className="underline underline-offset-2 hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
 					href="https://icons8.com/icon/zPzvtPRxYIfS/magic-crystal-ball"
 					rel="noopener noreferrer"
 					target="_blank"
@@ -70,12 +69,7 @@ export function SiteFooter() {
 					Magic
 				</a>{" "}
 				icon by{" "}
-				<a
-					className="underline underline-offset-2 hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
-					href="https://icons8.com"
-					rel="noopener noreferrer"
-					target="_blank"
-				>
+				<a href="https://icons8.com" rel="noopener noreferrer" target="_blank">
 					Icons8
 				</a>
 			</p>
