@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 
+import { ConsentBanner } from "@components";
 import { SITE_DESCRIPTION, SITE_TITLE } from "@constants";
+import { CONSENT_INIT_SCRIPT } from "@utils";
 
 import "./globals.css";
 
@@ -34,14 +36,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 		>
 			<body className="min-h-full flex flex-col">
 				<Script id="gtm-init" strategy="afterInteractive">
-					{`window.dataLayer = window.dataLayer || [];
-window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });`}
+					{CONSENT_INIT_SCRIPT}
 				</Script>
 				<Script
 					src={`https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`}
 					strategy="afterInteractive"
 				/>
 				{children}
+				<ConsentBanner />
 			</body>
 		</html>
 	);
