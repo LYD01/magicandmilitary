@@ -9,6 +9,7 @@ import { CONSENT_INIT_SCRIPT } from "@utils";
 import "./globals.css";
 
 const GTM_ID = "GTM-MXS69RJJ";
+const ADSENSE_CLIENT = "ca-pub-6999297880306274";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -26,6 +27,9 @@ export const metadata: Metadata = {
 		template: `%s · ${SITE_TITLE}`,
 	},
 	description: SITE_DESCRIPTION,
+	other: {
+		"google-adsense-account": ADSENSE_CLIENT,
+	},
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -41,6 +45,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 				<Script
 					src={`https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`}
 					strategy="afterInteractive"
+				/>
+				<Script
+					src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
+					strategy="afterInteractive"
+					crossOrigin="anonymous"
 				/>
 				{children}
 				<ConsentBanner />
