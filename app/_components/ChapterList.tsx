@@ -1,8 +1,10 @@
 import Link from "next/link";
 
-import { PLACEHOLDER_CHAPTERS } from "@constants";
+import { getPublishedChapters } from "@/lib/publishedChapters";
 
-export function ChapterList() {
+export async function ChapterList() {
+	const chapters = await getPublishedChapters();
+
 	return (
 		<section
 			className="w-full max-w-md px-4 sm:px-6"
@@ -12,7 +14,7 @@ export function ChapterList() {
 				Chapters
 			</h2>
 			<ol className="list-decimal space-y-2 pl-6 text-base leading-relaxed sm:text-lg">
-				{PLACEHOLDER_CHAPTERS.map((chapter) => (
+				{chapters.map((chapter) => (
 					<li key={chapter.slug}>
 						<Link className="link-classic" href={`/${chapter.slug}`}>
 							{chapter.label}

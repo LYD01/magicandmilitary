@@ -1,12 +1,15 @@
 import type { MetadataRoute } from "next";
 
-import { PLACEHOLDER_CHAPTERS, SITE_URL } from "@constants";
+import { SITE_URL } from "@constants";
+import { getPublishedChapters } from "@/lib/publishedChapters";
 
 /** Keep in sync with every public route; see `project-context` rule. */
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+	const chapters = await getPublishedChapters();
+
 	return [
 		{ url: SITE_URL, changeFrequency: "weekly", priority: 1 },
-		...PLACEHOLDER_CHAPTERS.map(({ slug }) => ({
+		...chapters.map(({ slug }) => ({
 			url: `${SITE_URL}/${slug}`,
 			changeFrequency: "monthly" as const,
 			priority: 0.8,

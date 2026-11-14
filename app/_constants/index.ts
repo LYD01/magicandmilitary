@@ -1,7 +1,6 @@
+export { CHAPTERS, type Chapter } from "./chapters";
 export {
-	type ChapterLink,
 	HERO_LETTER_COLORS,
-	PLACEHOLDER_CHAPTERS,
 	SITE_DESCRIPTION,
 	SITE_TITLE,
 	SITE_URL,

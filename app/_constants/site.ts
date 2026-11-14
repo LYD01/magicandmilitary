@@ -28,20 +28,6 @@ export const HERO_LETTER_COLORS = [
 	"#db2777",
 ] as const;
 
-export type ChapterLink = {
-	slug: string;
-	label: string;
-};
-
-/** Placeholder chapters until real routes and CMS/content exist. */
-export const PLACEHOLDER_CHAPTERS: ChapterLink[] = [
-	{ slug: "chapter-1", label: "Chapter 1: Opening sortie" },
-	{ slug: "chapter-2", label: "Chapter 2: Field notes" },
-	{ slug: "chapter-3", label: "Chapter 3: Unscheduled contact" },
-	{ slug: "chapter-4", label: "Chapter 4: After-action report" },
-	{ slug: "chapter-5", label: "Chapter 5: Briefing room" },
-];
-
 export type SocialLink = {
 	name: string;
 	href: string;
