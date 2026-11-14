@@ -60,6 +60,23 @@ body {
 	outline-offset: 2px;
 }
 
+/** Reader deterrents: no selection or long-press menu, blank when the tab is hidden, hide on print. */
+.reader {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+.reader[data-guard-hidden="true"] img {
+	visibility: hidden;
+}
+
+@media print {
+	.reader {
+		display: none;
+	}
+}
+
 .sr-only {
 	position: absolute;
 	width: 1px;
