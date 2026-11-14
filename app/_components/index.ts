@@ -1,1 +1,3 @@
-/** Barrel exports for `@components` — add re-exports as you create shared UI. */
+export { ChapterList } from "./ChapterList";
+export { SiteFooter } from "./SiteFooter";
+export { TitleHero } from "./TitleHero";

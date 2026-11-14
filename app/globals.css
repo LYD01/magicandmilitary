@@ -1,26 +1,73 @@
 @import "tailwindcss";
 
 :root {
-	--background: #ffffff;
-	--foreground: #171717;
+	--canvas: #f6f4ef;
+	--foreground: #1a1a1a;
 }
 
 @theme inline {
-	--color-background: var(--background);
+	--color-canvas: var(--canvas);
 	--color-foreground: var(--foreground);
 	--font-sans: var(--font-geist-sans);
 	--font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-	:root {
-		--background: #0a0a0a;
-		--foreground: #ededed;
+body {
+	background: var(--canvas);
+	color: var(--foreground);
+	font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+@keyframes hero-letter-in {
+	from {
+		opacity: 0;
+		transform: translateY(0.28em);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
 	}
 }
 
-body {
-	background: var(--background);
-	color: var(--foreground);
-	font-family: Arial, Helvetica, sans-serif;
+.hero-letter {
+	animation: hero-letter-in 0.6s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hero-letter {
+		animation: none;
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/** Classic web link: blue, underlined; underline removed on hover/focus. */
+.link-classic {
+	color: #0000ee;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.link-classic:hover,
+.link-classic:focus-visible {
+	text-decoration: none;
+}
+
+.link-classic:focus-visible {
+	border-radius: 2px;
+	outline: 2px solid var(--foreground);
+	outline-offset: 2px;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
 }
