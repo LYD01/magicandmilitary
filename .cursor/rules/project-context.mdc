@@ -1,0 +1,31 @@
+---
+description: Magic and Military — greenfield Next.js repo (fill in product context as you build)
+alwaysApply: true
+---
+
+# Magic and Military — project context
+
+**Greenfield** Next.js app. Product goals, routes, and data choices are not fixed in this rule file yet — update this doc when scope is clear.
+
+## Stack in this repo
+
+| Layer | Choice |
+|---|---|
+| Framework | Next.js 16 (App Router) |
+| UI | React 19, Tailwind CSS v4 |
+| Validation | Zod at external boundaries (forms, env, payloads) |
+| Tooling | Biome, ESLint (`eslint-config-next`), Husky, commitlint, lint-staged |
+| Package manager | pnpm |
+
+## Layout conventions
+
+- **Path aliases** in [`tsconfig.json`](../../tsconfig.json): `@components` → `app/_components/index.ts`, `@constants` → `app/_constants/index.ts`, `@utils` → `app/_utils/index.ts`; `@/*` for other roots.
+- App routes live under [`app/`](../../app/) (`page.tsx`, `layout.tsx`, `globals.css`). Non-route folders under `app/` use a **`_` prefix** (see **`code-hygiene`**).
+- Import shared UI/helpers as `from "@components"` / `from "@utils"`. Server Actions → `app/_actions/`.
+- Server-only helpers → `lib/` (e.g. `lib/env.ts`, `lib/validations/`). Import via `@/lib/...`.
+
+## When building features
+
+- Meet **WCAG 2.2 Level AA** (see **`accessibility`**).
+- Follow **`server-client-boundaries`** for RSC, actions, and hydration.
+- Follow **`code-hygiene`** and **`repo-tooling`** for structure, imports, and git hygiene.

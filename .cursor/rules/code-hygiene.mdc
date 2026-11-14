@@ -1,0 +1,105 @@
+---
+description: Code hygiene and Next.js App Router patterns for this repo
+alwaysApply: true
+---
+
+# Code hygiene & patterns
+
+## Next.js App Router
+
+### Components
+- **Default to Server Components.** Add `"use client"` only for browser APIs, event handlers, or hooks.
+- Keep client components small at the leaves; pass data from the server as props.
+- Do not import server-only modules (Node APIs, secrets) inside client components.
+
+### Data & routes
+- Prefer loading data in `async` Server Components instead of `useEffect` + fetch.
+- Use `loading.tsx`, `<Suspense>`, and `error.tsx` when routes need streaming or segment-level errors.
+- Route folders: `lowercase-kebab-case`. Groups: `(group-name)` — parentheses exclude the name from the URL. Pages: `page.tsx`, layouts: `layout.tsx`.
+- **Non-route folders under `app/`** must use a leading **`_`** so Next.js treats them as private (not URL segments): `app/_components/`, `app/_utils/`, `app/_actions/`, etc. Do not create `app/components/` or `app/utils/` — those would become URL segments.
+
+### Next.js built-ins
+- `next/image`, `next/link`, `next/font` for images, internal links, and fonts.
+
+## TypeScript
+
+- `"strict": true` — do not disable.
+- Avoid `any`; use `unknown` and narrow.
+- Avoid `@ts-ignore` / `@ts-expect-error` without a short comment.
+- Prefer `type` over `interface` (use `interface` only for intentional declaration merging).
+- Validate all external input (form data, env vars, payloads) with **Zod** at the boundary. Shared schemas live in `lib/validations/`.
+
+### Path aliases (barrel imports)
+
+**TypeScript path mapping** in [`tsconfig.json`](../../tsconfig.json). Prefer **barrel** entry points:
+
+| Alias | Folder | Import |
+| --- | --- | --- |
+| `@components` | [`app/_components/index.ts`](../../app/_components/index.ts) | `import { SitePlaceholder } from "@components"` |
+| `@utils` | [`app/_utils/index.ts`](../../app/_utils/index.ts) | `import { formatDisplayDate } from "@utils"` |
+
+- Add each new component or util to the folder’s **`index.ts`** (re-export). Implement in named files alongside it (`app/_components/HeroSection.tsx`, `app/_utils/dates.ts`).
+- Optional deep imports when needed: `@components/HeroSection`, `@utils/dates` — still prefer the barrel for public API.
+- **`@/*`** remains for other roots (`@/app/_actions/…`) if useful.
+- **Do not** use these aliases for npm packages (`react`, `next`, `@radix-ui/…`, etc.).
+
+Colocated route files may use `./` (e.g. `./globals.css` in `app/layout.tsx`).
+
+## Environment variables
+
+- Never expose secrets with the `NEXT_PUBLIC_` prefix.
+- Do not commit `.env` or `.env.local`. Document new variable **names** in `.env.example` when they exist.
+- Parse `process.env` once, in `lib/env.ts` (Zod), and import the parsed values elsewhere.
+- Generate secrets with `openssl rand -base64 32` (32+ characters).
+
+## Server Actions
+
+- Live in `app/_actions/`, named `camelCase.ts`. One concern per file: no React components exported from action files, and `"use server"` files export only async functions.
+- Validate input with Zod first; return `{ ok: false, error, fieldErrors? }` instead of throwing for expected errors.
+- Never create a Route Handler just to proxy a database write.
+
+## Security and logging
+
+- Render database content only as React text. Never use `dangerouslySetInnerHTML`, and never put database content in `href`, `src`, or `style`.
+- Never log secrets, passwords, IP addresses, or session tokens, including during local debugging.
+
+## Admin / destructive actions (when you add them)
+
+- Save is `success` (green); turning something off is `warning` (orange); remove or delete is `destructive` (red) and needs a confirm step whose button names the action (e.g. "Remove item", not "OK") and whose description states the impact.
+
+## Shared code
+
+- UI → `app/_components/` (export via `@components`). Pure helpers → `app/_utils/` (export via `@utils`).
+
+## Naming
+
+| Thing | Convention | Example |
+|---|---|---|
+| Route segment | `lowercase-kebab-case` | `privacy-policy/` |
+| Non-route folder under `app/` | `_` prefix | `_components/`, `_actions/` |
+| React component file | `PascalCase.tsx` | `HeroSection.tsx` |
+| Utility file | `camelCase.ts` | `formatHours.ts` |
+
+## General hygiene
+
+- No commented-out code or stray `console.log` in merged work.
+- One main concern per file when possible.
+
+### Import order
+
+Enforced by Biome **Organize Imports** on save / pre-commit ([`biome.json`](../../biome.json)). Blank lines separate groups; **sources are sorted A→Z within each group** (lexicographic); named imports inside `{ … }` are sorted the same way.
+
+| Group | Examples |
+| --- | --- |
+| 1. Node / Bun built-ins | `node:fs`, `node:path`, `bun:test` |
+| 2. React & Next.js | `react`, `react-dom`, `next/*` (framework before other npm deps) |
+| 3. Other npm packages | `clsx`, `server-only`, etc. |
+| 4. Project aliases | `@components`, `@utils`, `@/*` (before npm — not scoped packages) |
+| 5. Relative modules | `./foo`, `../bar` |
+| 6. Styles last | `./globals.css`, `*.module.css` (`:STYLE:`) |
+
+Use **Organize Imports** (or `pnpm format`) instead of hand-sorting. `import type` stays in the same group as its module.
+
+See **`server-client-boundaries`** (and [docs/audits/server-client-boundaries.md](../../docs/audits/server-client-boundaries.md)) for RSC, actions, and hydration rules.
+
+See **`repo-tooling`** for Biome, Husky, and commit message rules.

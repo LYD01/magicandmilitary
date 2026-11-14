@@ -1,0 +1,89 @@
+{
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"ignoreUnknown": false
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab"
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"preset": "recommended"
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double"
+		}
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": {
+					"level": "on",
+					"options": {
+						"identifierOrder": "lexicographic",
+						"groups": [
+							[":NODE:", ":BUN:"],
+							":BLANK_LINE:",
+							["react", "react/**", "next", "next/**"],
+							":BLANK_LINE:",
+							[
+								"@components",
+								"@components/**",
+								"@constants",
+								"@constants/**",
+								"@utils",
+								"@utils/**",
+								"@/**"
+							],
+							":BLANK_LINE:",
+							[
+								":PACKAGE:",
+								"!react",
+								"!react/**",
+								"!next",
+								"!next/**",
+								"!@components",
+								"!@components/**",
+								"!@constants",
+								"!@constants/**",
+								"!@utils",
+								"!@utils/**"
+							],
+							":BLANK_LINE:",
+							":PATH:",
+							":BLANK_LINE:",
+							":STYLE:"
+						]
+					}
+				}
+			}
+		}
+	},
+	"overrides": [
+		{
+			"includes": ["public/**"],
+			"linter": {
+				"rules": {
+					"a11y": {
+						"noSvgWithoutTitle": "off"
+					}
+				}
+			}
+		}
+	]
+}
