@@ -9,11 +9,18 @@
 		"lint": "eslint .",
 		"format": "biome check --write .",
 		"format:check": "biome check .",
+		"typecheck": "tsc --noEmit -p tsconfig.json",
+		"typecheck:baseline": "bash scripts/typecheck-baseline.sh",
+		"typecheck:baseline:save": "tsc --noEmit -p tsconfig.json 2>&1 | tsc-baseline save",
+		"typecheck:baseline:clear": "tsc-baseline clear",
 		"prepare": "husky"
 	},
 	"lint-staged": {
 		"*.{js,mjs,cjs,jsx,ts,tsx,json,css}": [
 			"biome check --write --no-errors-on-unmatched"
+		],
+		"*.{ts,tsx}": [
+			"eslint --max-warnings 0"
 		]
 	},
 	"dependencies": {
@@ -36,6 +43,7 @@
 		"husky": "^9.1.7",
 		"lint-staged": "^17.6.0",
 		"tailwindcss": "4.3.3",
+		"tsc-baseline": "^2.1.0",
 		"typescript": "^5"
 	},
 	"packageManager": "pnpm@11.11.0"

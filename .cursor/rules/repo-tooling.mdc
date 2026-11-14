@@ -17,7 +17,11 @@ alwaysApply: true
 - Next.js flat config: [`eslint.config.mjs`](../../eslint.config.mjs)
 - Run: `pnpm lint`
 
-Use Biome for formatting and import order; ESLint for Next/React rules. Pre-commit does not run ESLint — run `pnpm lint` before pushing if you changed TS/TSX logic.
+Use Biome for formatting and import order; ESLint for Next/React rules and deprecated API usage.
+
+**Deprecated code on commit:** Biome `suspicious/noDeprecatedImports` (error) and ESLint `@typescript-eslint/no-deprecated` (error) run via lint-staged on staged files.
+
+**TypeScript errors on commit:** After lint-staged, pre-commit runs `pnpm typecheck:baseline` (`tsc` piped to [`tsc-baseline`](https://github.com/TimMikeladze/tsc-baseline)). Known errors live in [`.tsc-baseline.json`](../../.tsc-baseline.json); commits fail on **new** errors (or increased counts for an existing hash). Refresh the baseline after fixing debt: `pnpm typecheck:baseline:save`. Clear when the project is clean: `pnpm typecheck:baseline:clear` then save again.
 
 ## Git hooks (Husky)
 
