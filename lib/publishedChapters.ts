@@ -4,20 +4,17 @@ import { cacheLife } from "next/cache";
 
 import { CHAPTERS, type Chapter } from "@constants";
 
+/**
+ * True when `publishedAt` is at or before `at`.
+ * Callers pass an explicit instant. Cache Components reject `Date.now()` during
+ * prerender, so that clock read stays inside `getPublishedChapters`.
+ */
 export function isChapterPublished(
 	chapter: Chapter,
-	at: number | Date = Date.now(),
+	at: number | Date,
 ): boolean {
 	const when = at instanceof Date ? at.getTime() : at;
 	return Date.parse(chapter.publishedAt) <= when;
-}
-
-/** Published chapters that have reader pages (excludes “coming soon” placeholders). */
-export function isChapterReadable(
-	chapter: Chapter,
-	at?: number | Date,
-): boolean {
-	return isChapterPublished(chapter, at) && chapter.pageCount > 0;
 }
 
 /**

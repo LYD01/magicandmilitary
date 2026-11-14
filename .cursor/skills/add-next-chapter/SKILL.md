@@ -1,11 +1,12 @@
 ---
+
 name: add-next-chapter
 description: >-
-  Wires manga chapter pages into the local reader after web copies are uploaded
-  to UploadThing (private ACL). Asks for a page range (e.g. 1-15) and ordered file
-  keys, then updates the manifest and chapter list for local review. Use when the
-  user says add next chapter, wire chapter pages, publish a chapter, or gives a
-  page range with UploadThing keys.
+Wires manga chapter pages into the local reader after web copies are uploaded
+to UploadThing (private ACL). Asks for a page range (e.g. 1-15) and ordered file
+keys, then updates the manifest and chapter list for local review. Use when the
+user says add next chapter, wire chapter pages, publish a chapter, or gives a
+page range with UploadThing keys.
 disable-model-invocation: true
 ---
 
@@ -27,14 +28,14 @@ Ground truth: [docs/audits/reader-protection.md](../../docs/audits/reader-protec
 
 Use **AskQuestion** / chat in this order. Do not guess file keys.
 
-| Input | Required | Notes |
-| --- | --- | --- |
-| Page range | Yes | e.g. `1-15`, `3-7`, or a single page `8`. Expand to a count: `1-15` → 15 pages. |
-| UploadThing file keys | Yes | One key per page in range, **same order** as the range (paste from the dashboard or a numbered list). Count must match range length. |
-| Chapter label | If new/renaming | Default: keep existing `label` on the `Chapter` row. |
-| Chapter `aspectRatio` | Optional | Default: copy the previous chapter’s manifest `aspectRatio` (often `1600 / 894`). |
-| Per-page `aspectRatio` | Optional | Only when a page’s dimensions differ (see chapter 1 page 8 in the manifest). |
-| Go live now? | Optional | Default **no**: keep `publishedAt` in the far future (`2099-01-01T00:00:00Z`) so home shows **Coming soon** until they approve. If yes, set `publishedAt` to a real ISO instant (typically `now` or a scheduled time). |
+| Input                  | Required        | Notes                                                                                                                                                                                                                  |
+| ---------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Page range             | Yes             | e.g. `1-15`, `3-7`, or a single page `8`. Expand to a count: `1-15` → 15 pages.                                                                                                                                        |
+| UploadThing file keys  | Yes             | One key per page in range, **same order** as the range (paste from the dashboard or a numbered list). Count must match range length.                                                                                   |
+| Chapter label          | If new/renaming | Default: keep existing `label` on the `Chapter` row.                                                                                                                                                                   |
+| Chapter `aspectRatio`  | Optional        | Default: copy the previous chapter’s manifest `aspectRatio` (often `1600 / 894`).                                                                                                                                      |
+| Per-page `aspectRatio` | Optional        | Only when a page’s dimensions differ (see chapter 1 page 8 in the manifest).                                                                                                                                           |
+| Go live now?           | Optional        | Default **no**: keep `publishedAt` in the far future (`2099-01-01T00:00:00Z`) so home shows **Coming soon** until they approve. If yes, set `publishedAt` to a real ISO instant (typically `now` or a scheduled time). |
 
 Do **not** ask them to upload again—you only need keys and range.
 
@@ -104,9 +105,9 @@ When the user approves:
 
 ## Troubleshooting
 
-| Symptom | Fix |
-| --- | --- |
-| Build throws `pageCount` mismatch | Align `chapters.ts` `pageCount` with manifest `pages.length`. |
-| Home still “Coming soon” | `publishedAt` is still future or `pageCount` is 0; `ChapterList` uses `isChapterReadable`. |
-| `/chapter-N` 404 | `publishedAt` must be ≤ now for the chapter route; bump date or use dev-only preview (user can temporarily set `publishedAt` to past). |
-| Wrong page order | Reorder manifest `pages` to match upload order; ids can stay. |
+| Symptom                           | Fix                                                                                                                                    |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Build throws `pageCount` mismatch | Align `chapters.ts` `pageCount` with manifest `pages.length`.                                                                          |
+| Home still “Coming soon”          | `publishedAt` is still future or `pageCount` is 0. Home passes published slugs from `getPublishedChapters()` into `ChapterList`.       |
+| `/chapter-N` 404                  | `publishedAt` must be ≤ now for the chapter route; bump date or use dev-only preview (user can temporarily set `publishedAt` to past). |
+| Wrong page order                  | Reorder manifest `pages` to match upload order; ids can stay.                                                                          |

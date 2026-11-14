@@ -16,7 +16,9 @@ export default async function Home() {
 							pageCount,
 						}))}
 					/>
-					<ChapterList />
+					<ChapterList
+						publishedSlugs={chapters.map((chapter) => chapter.slug)}
+					/>
 				</div>
 			</main>
 			<SiteFooter />
