@@ -14,6 +14,8 @@ const adsScript = [
 	"https://tpc.googlesyndication.com",
 	"https://www.gstatic.com",
 	"https://fundingchoicesmessages.google.com",
+	"https://ep1.adtrafficquality.google",
+	"https://ep2.adtrafficquality.google",
 ].join(" ");
 
 const googleImg = [
@@ -25,6 +27,8 @@ const googleImg = [
 	"https://www.googleadservices.com",
 	"https://googleads.g.doubleclick.net",
 	"https://pagead2.googlesyndication.com",
+	"https://ep1.adtrafficquality.google",
+	"https://ep2.adtrafficquality.google",
 ].join(" ");
 
 const googleConnect = [
