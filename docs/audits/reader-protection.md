@@ -19,7 +19,7 @@ DevTools Network always shows the proxied bytes. Accepting that is part of the d
 
 ## Rules to keep
 
-- File keys live only in `lib/chapterManifest.ts` (server-only). Never export them through a barrel: `TitleHero` is a client component that imports `@constants`.
+- File keys live only in `lib/chapterManifest.ts` (server-only). Never export them through a barrel: client components such as `ProtectedReader` import `@constants`.
 - Never log the signed UploadThing URL or raw upstream error objects (the URL carries its signature). `lib/uploadthing.ts` logs status codes only.
 - The proxy sends `Cache-Control: private, max-age=3600` and buffers each page with an explicit `Content-Length` (iOS Safari is unreliable on chunked image bodies). Do not add `generateStaticParams` to the proxy route; it would prerender image bytes at build time.
 - A plain `<img>` is intentional. `next/image` would re-fetch the proxy server-side without browser fetch metadata and cache the result publicly.

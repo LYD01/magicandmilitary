@@ -32,7 +32,7 @@ Public site to **publish and read** the manga **Magic and Military** chapter by 
 ## Home page UX (keep unless product changes)
 
 - **Canvas:** off-white (`--canvas` / `bg-canvas` in [`app/globals.css`](../../app/globals.css)), not pure white.
-- **Hero:** centered [`TitleHero`](../../app/_components/TitleHero.tsx) — title **Magic and Military**, **each letter a distinct color**, **subtle staggered fade/slide-in** on load (`prefers-reduced-motion` disables motion).
+- **Hero:** centered [`TitleHero`](../../app/_components/TitleHero.tsx) — title **Magic and Military** as **hand-drawn SVG letters themed on the story** (fantasy/magic, Narnia, holy, military: camo `M` with shrubs, `.50` cal `l`, grenade `g`, cross `t`, lion `a`, castle `n`, sword-and-shield `d`, lamp-post `r`, stag-antler `y`, …), set on a **shallow arch** (one arc on desktop, two stacked arcs below `md`). Each letter has its own entrance plus a slow idle loop (`.hl-*` keyframes in [`globals.css`](../../app/globals.css)); `prefers-reduced-motion` disables all of it. Glyphs live in [`app/_components/hero/`](../../app/_components/hero/); arch maths in `heroLayout.ts`, the glyph registry/sequence in `heroGlyphs.ts`. Every glyph keeps the dark `INK` outline so it holds 3:1 on the canvas. To add or change a letter, edit its `Letter*.tsx`, then its width/entrance in `heroGlyphs.ts`.
 - **Chapters:** [`ChapterList`](../../app/_components/ChapterList.tsx) — **ordered list** of links; **classic web link** styling (`.link-classic`: blue, underlined, underline removed on hover/focus).
 - **Mobile-first:** responsive type scale, padding, and **44px-style** social hit targets in [`SiteFooter`](../../app/_components/SiteFooter.tsx).
 
@@ -44,8 +44,8 @@ Public site to **publish and read** the manga **Magic and Military** chapter by 
 
 ## When building features
 
-- Meet **WCAG 2.2 Level AA** (see **`accessibility`**). Hero uses visible letter colors plus `sr-only` full title; chapter list has a screen-reader heading.
-- Follow **`server-client-boundaries`** — hero animation is a **client leaf** (`TitleHero`); page stays a Server Component.
+- Meet **WCAG 2.2 Level AA** (see **`accessibility`**). Hero art is `aria-hidden` with an `sr-only` full title inside the single `<h1>`; chapter list has a screen-reader heading.
+- Follow **`server-client-boundaries`** — hero animation is CSS-only, so `TitleHero` and the glyphs are **Server Components** (no `"use client"`).
 - Follow **`code-hygiene`** and **`repo-tooling`** for structure, imports, and git hygiene.
 ## Sitemap and robots
 

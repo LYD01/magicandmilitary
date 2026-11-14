@@ -6,7 +6,7 @@ import { z } from "zod";
 
 /**
  * Server-only page manifest. Do NOT export this through a barrel: file keys
- * must never reach a client bundle (`TitleHero` imports the `@constants` barrel).
+ * must never reach a client bundle (client components such as `ProtectedReader` import the `@constants` barrel).
  *
  * To add a page: upload the web copy in the UploadThing dashboard, generate an
  * id with `node -e "console.log(crypto.randomUUID())"`, paste the file key, and
