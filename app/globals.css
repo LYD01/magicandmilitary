@@ -463,13 +463,6 @@ body {
 	margin-left: 0.25rem;
 }
 
-/** Narrow screens: reserve a gutter so the ribbon has room without overflowing. */
-@media (max-width: 53.99rem) {
-	.reader {
-		padding-right: 2.75rem;
-	}
-}
-
 .reader[data-guard-hidden="true"] .bookmark-toggle {
 	visibility: hidden;
 }
@@ -515,6 +508,34 @@ body {
 
 .bookmark-toggle[aria-pressed="true"] .bookmark-ribbon {
 	background: #b3261e;
+}
+
+/** Narrow screens: full-width pages; ribbon on the page’s top-right (no reader gutter). */
+@media (max-width: 53.99rem) {
+	.bookmark-toggle {
+		left: auto;
+		right: env(safe-area-inset-right, 0px);
+		width: 2.75rem;
+		height: 2.75rem;
+		margin-left: 0;
+	}
+
+	.bookmark-wrap {
+		width: 1.125rem;
+		height: 1.625rem;
+		margin-left: auto;
+		margin-right: 0;
+	}
+
+	.bookmark-ribbon {
+		padding-top: 0.3rem;
+	}
+
+	.bookmark-toggle svg {
+		width: 0.625rem;
+		height: 0.625rem;
+		stroke-width: 1.5;
+	}
 }
 
 @keyframes bookmark-drop {
