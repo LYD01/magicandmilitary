@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Magic and Military — project context
 
-Public site to **publish and read** the manga **Magic and Military** chapter by chapter. The home page is the chapter index; individual chapter routes will host reader UI later.
+Public site to **publish and read** the manga **Magic and Military** chapter by chapter. The home page is the chapter index; `/<chapter-slug>` hosts the reader.
 
 ## Stack in this repo
 
@@ -13,7 +13,7 @@ Public site to **publish and read** the manga **Magic and Military** chapter by 
 |---|---|
 | Framework | Next.js 16 (App Router) |
 | UI | React 19, Tailwind CSS v4 |
-| Content (planned) | Chapter pages/routes TBD (static, CMS, or files) |
+| Content | Chapter pages are private UploadThing files; chapter data in `app/_constants/chapters.ts` (public) and `lib/chapterManifest.ts` (server-only keys) |
 | Tooling | Biome, ESLint, Husky, commitlint, lint-staged, `tsc-baseline` |
 | Package manager | pnpm |
 
@@ -22,7 +22,10 @@ Public site to **publish and read** the manga **Magic and Military** chapter by 
 | Route | Purpose |
 |---|---|
 | `/` | Home: animated title hero, ordered chapter links, social footer |
-| `/<chapter-slug>` | Placeholder targets today; real chapter reader pages later |
+| `/<chapter-slug>` | Chapter reader: static shell, `ProtectedReader` client leaf, only published chapters (`publishedAt`) |
+| `/api/pages/<id>` | Same-origin image proxy for private pages (disallowed in `robots.ts`) |
+
+**Reader protection:** file keys never leave `lib/chapterManifest.ts` and must never be exported through a barrel (client components import `@constants`). Pages use a plain `<img>` against the proxy on purpose. Threat model, limits and the add-pages workflow: [docs/audits/reader-protection.md](../../docs/audits/reader-protection.md).
 
 **No global header** on the marketing/home shell. **Footer** is not a colored bar: a single row of social icons (X, Instagram, TikTok). URLs live in [`app/_constants/site.ts`](../../app/_constants/site.ts).
 
