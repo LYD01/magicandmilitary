@@ -104,6 +104,20 @@ body {
 	text-shadow: none;
 }
 
+/** The ribbon hangs beside the page, never over the art. */
+.bookmark-toggle {
+	right: auto;
+	left: 100%;
+	margin-left: 0.25rem;
+}
+
+/** Narrow screens: reserve a gutter so the ribbon has room without overflowing. */
+@media (max-width: 53.99rem) {
+	.reader {
+		padding-right: 2.75rem;
+	}
+}
+
 .reader[data-guard-hidden="true"] .bookmark-toggle {
 	visibility: hidden;
 }
