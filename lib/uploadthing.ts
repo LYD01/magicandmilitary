@@ -5,14 +5,13 @@ import { UTApi } from "uploadthing/server";
 import { getEnv } from "./env";
 
 const SIGNED_URL_TTL_SECONDS = 60;
-const UPSTREAM_TIMEOUT_MS = 10_000;
+const UPSTREAM_TIMEOUT_MS = 25_000;
 
 export type PageImageResult =
 	| {
 			ok: true;
-			body: ReadableStream<Uint8Array>;
+			body: ArrayBuffer;
 			contentType: string;
-			contentLength: string | null;
 	  }
 	| { ok: false; status: 404 | 502 };
 
@@ -20,7 +19,7 @@ let utapi: UTApi | undefined;
 
 /**
  * The only function that talks to UploadThing. Signs a short-lived URL for a
- * private file and streams it. Errors are collapsed to a status code on purpose:
+ * private file and returns the bytes. Errors are collapsed to a status code on purpose:
  * the signed URL (and its signature) must never reach logs or clients.
  */
 export async function fetchPageImage(
@@ -41,17 +40,23 @@ export async function fetchPageImage(
 			return { ok: false, status: 404 };
 		}
 
-		const contentType = upstream.headers.get("content-type") ?? "";
-		if (!upstream.ok || !upstream.body || !contentType.startsWith("image/")) {
+		const rawType = upstream.headers.get("content-type") ?? "";
+		const contentType = rawType.split(";")[0]?.trim() ?? "";
+		if (!upstream.ok || !contentType.startsWith("image/")) {
+			console.error("Page image upstream failure, status:", upstream.status);
+			return { ok: false, status: 502 };
+		}
+
+		const body = await upstream.arrayBuffer();
+		if (body.byteLength === 0) {
 			console.error("Page image upstream failure, status:", upstream.status);
 			return { ok: false, status: 502 };
 		}
 
 		return {
 			ok: true,
-			body: upstream.body,
+			body,
 			contentType,
-			contentLength: upstream.headers.get("content-length"),
 		};
 	} catch {
 		console.error("Page image upstream request failed");

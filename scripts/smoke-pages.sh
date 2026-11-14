@@ -38,6 +38,17 @@ if [[ -n "$VALID_ID" ]]; then
 		echo "FAIL valid id content type: $content_type"
 		failures=$((failures + 1))
 	fi
+	content_length="$(curl -s -o /dev/null -D - \
+		-H "Sec-Fetch-Site: same-origin" "$BASE_URL/api/pages/$VALID_ID" \
+		| awk 'tolower($1) == "content-length:" { print $2; exit }' | tr -d '\r')"
+	if [[ -n "$content_length" && "$content_length" -gt 0 ]]; then
+		echo "ok   valid id has Content-Length ($content_length)"
+	else
+		echo "FAIL valid id missing Content-Length"
+		failures=$((failures + 1))
+	fi
+	expect_status "same-site request is 200" 200 \
+		-H "Sec-Fetch-Site: same-site" "$BASE_URL/api/pages/$VALID_ID"
 fi
 
 exit "$failures"

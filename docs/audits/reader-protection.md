@@ -8,7 +8,7 @@ Chapter pages are private UploadThing files, served only through `app/api/pages/
 | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------- |
 | Private ACL on UploadThing                                                                                    | Guessing or sharing a plain `ufs.sh` URL              | Nothing without the API key                                                  |
 | Random page ids in `/api/pages/<id>`                                                                          | Enumerating pages, learning file keys                 | Loading the chapter page (ids are in its HTML)                               |
-| `Sec-Fetch-Site` check                                                                                        | Hotlinking from other sites, opening the URL directly | Any non-browser client that sets the header                                  |
+| `Sec-Fetch-Site` check (`same-origin` / `same-site` only)                                                     | Hotlinking from other sites, opening the URL directly | Any non-browser client that sets the header                                  |
 | Vercel Firewall rate limit (configure in the dashboard for `/api/pages/*`)                                    | Bulk scraping from one source                         | Distributed scraping                                                         |
 | `publishedAt`                                                                                                 | Early access to unreleased chapters                   | Nothing (the proxy returns 404 until the time passes)                        |
 | Context menu, drag, selection, print CSS                                                                      | Casual "save image" and print                         | DevTools, extensions, screenshots                                            |
@@ -21,7 +21,7 @@ DevTools Network always shows the proxied bytes. Accepting that is part of the d
 
 - File keys live only in `lib/chapterManifest.ts` (server-only). Never export them through a barrel: `TitleHero` is a client component that imports `@constants`.
 - Never log the signed UploadThing URL or raw upstream error objects (the URL carries its signature). `lib/uploadthing.ts` logs status codes only.
-- The proxy sends `Cache-Control: private, max-age=3600`. Do not add `generateStaticParams` to the proxy route; it would prerender image bytes at build time.
+- The proxy sends `Cache-Control: private, max-age=3600` and buffers each page with an explicit `Content-Length` (iOS Safari is unreliable on chunked image bodies). Do not add `generateStaticParams` to the proxy route; it would prerender image bytes at build time.
 - A plain `<img>` is intentional. `next/image` would re-fetch the proxy server-side without browser fetch metadata and cache the result publicly.
 - Unknown chapter slugs render the not-found UI (with `noindex`) but with a 200 status, because the shell streams before `notFound()` runs under Cache Components.
 
