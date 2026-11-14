@@ -18,7 +18,7 @@ export function ChapterList({ publishedSlugs }: ChapterListProps) {
 			<h2 id="chapters-heading" className="sr-only">
 				Chapters
 			</h2>
-			<ol className="list-decimal space-y-2 pl-6 text-base leading-relaxed sm:text-lg">
+			<ol className="list-inside list-decimal space-y-2 text-center text-base leading-relaxed sm:text-lg">
 				{CHAPTERS.map((chapter) => (
 					<li key={chapter.slug}>
 						{published.has(chapter.slug) && chapter.pageCount > 0 ? (
