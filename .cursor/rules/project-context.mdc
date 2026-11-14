@@ -1,11 +1,11 @@
 ---
-description: Magic and Military — greenfield Next.js repo (fill in product context as you build)
+description: Magic and Military — manga reader site (product context and UI conventions)
 alwaysApply: true
 ---
 
 # Magic and Military — project context
 
-**Greenfield** Next.js app. Product goals, routes, and data choices are not fixed in this rule file yet — update this doc when scope is clear.
+Public site to **publish and read** the manga **Magic and Military** chapter by chapter. The home page is the chapter index; individual chapter routes will host reader UI later.
 
 ## Stack in this repo
 
@@ -13,19 +13,38 @@ alwaysApply: true
 |---|---|
 | Framework | Next.js 16 (App Router) |
 | UI | React 19, Tailwind CSS v4 |
-| Validation | Zod at external boundaries (forms, env, payloads) |
-| Tooling | Biome, ESLint (`eslint-config-next`), Husky, commitlint, lint-staged |
+| Content (planned) | Chapter pages/routes TBD (static, CMS, or files) |
+| Tooling | Biome, ESLint, Husky, commitlint, lint-staged, `tsc-baseline` |
 | Package manager | pnpm |
+
+## Information architecture
+
+| Route | Purpose |
+|---|---|
+| `/` | Home: animated title hero, ordered chapter links, social footer |
+| `/<chapter-slug>` | Placeholder targets today; real chapter reader pages later |
+
+**No global header** on the marketing/home shell. **Footer** is not a colored bar: a single row of social icons (X, Instagram, TikTok). URLs live in [`app/_constants/site.ts`](../../app/_constants/site.ts).
+
+## Home page UX (keep unless product changes)
+
+- **Canvas:** off-white (`--canvas` / `bg-canvas` in [`app/globals.css`](../../app/globals.css)), not pure white.
+- **Hero:** centered [`TitleHero`](../../app/_components/TitleHero.tsx) — title **Magic and Military**, **each letter a distinct color**, **subtle staggered fade/slide-in** on load (`prefers-reduced-motion` disables motion).
+- **Chapters:** [`ChapterList`](../../app/_components/ChapterList.tsx) — **ordered list** of links; **classic web link** styling (`.link-classic`: blue, underlined, underline removed on hover/focus).
+- **Mobile-first:** responsive type scale, padding, and **44px-style** social hit targets in [`SiteFooter`](../../app/_components/SiteFooter.tsx).
 
 ## Layout conventions
 
-- **Path aliases** in [`tsconfig.json`](../../tsconfig.json): `@components` → `app/_components/index.ts`, `@constants` → `app/_constants/index.ts`, `@utils` → `app/_utils/index.ts`; `@/*` for other roots.
-- App routes live under [`app/`](../../app/) (`page.tsx`, `layout.tsx`, `globals.css`). Non-route folders under `app/` use a **`_` prefix** (see **`code-hygiene`**).
-- Import shared UI/helpers as `from "@components"` / `from "@utils"`. Server Actions → `app/_actions/`.
-- Server-only helpers → `lib/` (e.g. `lib/env.ts`, `lib/validations/`). Import via `@/lib/...`.
+- **Path aliases:** `@components`, `@constants`, `@utils`, `@/*` (see [`tsconfig.json`](../../tsconfig.json)).
+- Non-route folders under `app/` use **`_` prefix** (see **`code-hygiene`**).
+- Site-wide copy, chapter placeholders, and social URLs → **`app/_constants/site.ts`** (barrel `@constants`).
 
 ## When building features
 
-- Meet **WCAG 2.2 Level AA** (see **`accessibility`**).
-- Follow **`server-client-boundaries`** for RSC, actions, and hydration.
+- Meet **WCAG 2.2 Level AA** (see **`accessibility`**). Hero uses visible letter colors plus `sr-only` full title; chapter list has a screen-reader heading.
+- Follow **`server-client-boundaries`** — hero animation is a **client leaf** (`TitleHero`); page stays a Server Component.
 - Follow **`code-hygiene`** and **`repo-tooling`** for structure, imports, and git hygiene.
+## Sitemap and robots
+
+- [`app/sitemap.ts`](../../app/sitemap.ts) lists every public URL; [`app/robots.ts`](../../app/robots.ts) points crawlers at `/sitemap.xml`. Origin lives in `SITE_URL` (`app/_constants/site.ts`).
+- **Whenever you add, rename, or remove a page or route** (including chapters), check `app/sitemap.ts` and update it if the URL is missing or stale. Chapter routes derive from the chapter list in `site.ts`; any other static route needs an explicit entry. Exclude private routes (e.g. admin) and disallow them in `robots.ts`.
