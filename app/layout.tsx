@@ -46,9 +46,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 					src={`https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`}
 					strategy="afterInteractive"
 				/>
-				<Script
+				{/* Plain <script>: next/script adds data-nscript, which AdSense rejects. */}
+				<script
+					async
 					src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
-					strategy="afterInteractive"
 					crossOrigin="anonymous"
 				/>
 				{children}
