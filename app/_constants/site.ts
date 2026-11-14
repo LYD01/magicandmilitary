@@ -35,7 +35,7 @@ export type SocialLink = {
 
 /** Replace `#` with real profile URLs when accounts are ready. */
 export const SOCIAL_LINKS: SocialLink[] = [
-	{ name: "X", href: "https://x.com" },
-	{ name: "Instagram", href: "https://instagram.com" },
-	{ name: "TikTok", href: "https://tiktok.com" },
+	{ name: "X", href: "https://x.com/magicmilitaryx" },
+	{ name: "Instagram", href: "https://www.instagram.com/magicandmilitary/" },
+	{ name: "TikTok", href: "https://www.tiktok.com/@magicmilitary" },
 ];
