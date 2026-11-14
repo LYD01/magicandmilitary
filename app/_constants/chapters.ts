@@ -16,7 +16,7 @@ export type Chapter = {
 export const CHAPTERS: Chapter[] = [
 	{
 		slug: "chapter-1",
-		label: "Chapter 1: Opening sortie",
+		label: "Chapter 1: A journey west",
 		pageCount: 15,
 		publishedAt: "2026-01-01T00:00:00Z",
 	},
