@@ -2,6 +2,7 @@
 
 import { SITE_TITLE, SITE_URL } from "@constants";
 
+import { BookmarkToggle } from "./BookmarkToggle";
 import { useContentGuard } from "./useContentGuard";
 
 export type ReaderPage = {
@@ -12,6 +13,7 @@ export type ReaderPage = {
 };
 
 type ProtectedReaderProps = {
+	chapterSlug: string;
 	pages: ReaderPage[];
 };
 
@@ -26,7 +28,7 @@ const WATERMARK_BACKGROUND = `url("data:image/svg+xml,${encodeURIComponent(
  * Client leaf: lazy-loaded page images from the same-origin proxy, a visible
  * watermark overlay, and light copy deterrents. See `docs/audits/reader-protection.md`.
  */
-export function ProtectedReader({ pages }: ProtectedReaderProps) {
+export function ProtectedReader({ chapterSlug, pages }: ProtectedReaderProps) {
 	const { hidden, guardProps } = useContentGuard();
 
 	return (
@@ -39,7 +41,8 @@ export function ProtectedReader({ pages }: ProtectedReaderProps) {
 			{pages.map((page, index) => (
 				<div
 					key={page.src}
-					className="relative w-full bg-neutral-200"
+					id={`page-${index + 1}`}
+					className="relative w-full scroll-mt-4 bg-neutral-200"
 					style={{ aspectRatio: page.aspectRatio }}
 				>
 					{/* Plain img on purpose: next/image would re-fetch the proxy server-side without browser fetch metadata and cache it publicly. */}
@@ -60,6 +63,7 @@ export function ProtectedReader({ pages }: ProtectedReaderProps) {
 						className="pointer-events-none absolute inset-0"
 						style={{ backgroundImage: WATERMARK_BACKGROUND }}
 					/>
+					<BookmarkToggle slug={chapterSlug} page={index + 1} />
 				</div>
 			))}
 		</section>

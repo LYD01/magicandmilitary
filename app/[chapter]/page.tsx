@@ -50,7 +50,7 @@ export default async function ChapterPage({ params }: PageProps<"/[chapter]">) {
 						<p className="max-w-prose text-center text-sm">
 							Pages are hidden while this tab is in the background.
 						</p>
-						<ProtectedReader pages={pages} />
+						<ProtectedReader chapterSlug={slug} pages={pages} />
 					</>
 				) : (
 					<p className="text-base">Pages for this chapter are coming soon.</p>
