@@ -18,27 +18,379 @@ body {
 	font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
-@keyframes hero-letter-in {
+/**
+ * Hero title: every letter is SVG. `.hl-enter` is the one-off arrival, the other
+ * `.hl-*` classes are slow idle loops on parts of a glyph. Box is the element's own
+ * bounding box, so `transform-origin` percentages pivot on the part itself.
+ */
+.hl-enter,
+.hl-sway,
+.hl-sway-slow,
+.hl-flicker,
+.hl-pulse,
+.hl-twinkle,
+.hl-spin,
+.hl-spin-slow,
+.hl-swing,
+.hl-wave,
+.hl-bob,
+.hl-blink,
+.hl-breathe,
+.hl-ember,
+.hl-gleam {
+	transform-box: fill-box;
+}
+
+.hl-enter {
+	transform-origin: 50% 100%;
+	animation-duration: 0.85s;
+	animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+	animation-fill-mode: both;
+}
+
+.hl-in-rise {
+	animation-name: hl-in-rise;
+}
+
+.hl-in-drop {
+	animation-name: hl-in-drop;
+	animation-timing-function: cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.hl-in-pop {
+	transform-origin: 50% 50%;
+	animation-name: hl-in-pop;
+}
+
+.hl-in-shoot {
+	animation-name: hl-in-shoot;
+	animation-duration: 0.6s;
+	animation-timing-function: cubic-bezier(0.1, 0.9, 0.3, 1);
+}
+
+.hl-in-spin {
+	transform-origin: 50% 50%;
+	animation-name: hl-in-spin;
+	animation-duration: 1s;
+}
+
+.hl-in-grow {
+	animation-name: hl-in-grow;
+}
+
+@keyframes hl-in-rise {
 	from {
 		opacity: 0;
-		transform: translateY(0.28em);
+		transform: translateY(46px) scaleY(0.85);
 	}
 
 	to {
 		opacity: 1;
-		transform: translateY(0);
+		transform: none;
 	}
 }
 
-.hero-letter {
-	animation: hero-letter-in 0.6s ease-out both;
+@keyframes hl-in-drop {
+	from {
+		opacity: 0;
+		transform: translateY(-110px) rotate(-6deg);
+	}
+
+	30% {
+		opacity: 1;
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes hl-in-pop {
+	from {
+		opacity: 0;
+		transform: scale(0.2);
+	}
+
+	60% {
+		opacity: 1;
+		transform: scale(1.14);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes hl-in-shoot {
+	from {
+		opacity: 0;
+		transform: translateY(300px) scaleY(1.25);
+	}
+
+	25% {
+		opacity: 1;
+	}
+
+	75% {
+		transform: translateY(-14px) scaleY(1);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes hl-in-spin {
+	from {
+		opacity: 0;
+		transform: rotate(-220deg) scale(0.3);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@keyframes hl-in-grow {
+	from {
+		opacity: 0;
+		transform: scale(0.88, 0.1);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+.hl-sway {
+	transform-origin: 50% 100%;
+	animation: hl-sway 4.6s ease-in-out infinite alternate;
+}
+
+.hl-sway-slow {
+	transform-origin: 50% 100%;
+	animation: hl-sway 7s ease-in-out infinite alternate;
+}
+
+.hl-swing {
+	transform-origin: 50% 0;
+	animation: hl-swing 3.4s ease-in-out infinite alternate;
+}
+
+.hl-bob {
+	transform-origin: 50% 100%;
+	animation: hl-bob 3.2s ease-in-out infinite alternate;
+}
+
+.hl-flicker {
+	transform-origin: 50% 100%;
+	animation: hl-flicker 1.6s ease-in-out infinite alternate;
+}
+
+.hl-wave {
+	transform-origin: 0 50%;
+	animation: hl-wave 1.8s ease-in-out infinite alternate;
+}
+
+.hl-pulse {
+	transform-origin: 50% 50%;
+	animation: hl-pulse 3.2s ease-in-out infinite alternate;
+}
+
+.hl-breathe {
+	transform-origin: 50% 50%;
+	animation: hl-breathe 3.6s ease-in-out infinite alternate;
+}
+
+.hl-twinkle {
+	transform-origin: 50% 50%;
+	animation: hl-twinkle 2.8s ease-in-out infinite;
+}
+
+.hl-spin {
+	transform-origin: 50% 50%;
+	animation: hl-spin 16s linear infinite;
+}
+
+.hl-spin-slow {
+	transform-origin: 50% 50%;
+	animation: hl-spin 40s linear infinite;
+}
+
+.hl-blink {
+	transform-origin: 50% 50%;
+	animation: hl-blink 5.5s ease-in-out infinite;
+}
+
+.hl-ember {
+	animation: hl-ember 2.6s ease-out infinite;
+}
+
+.hl-gleam {
+	transform-origin: 50% 50%;
+	animation: hl-gleam 6.5s ease-in-out infinite;
+}
+
+@keyframes hl-sway {
+	from {
+		transform: rotate(-3.5deg);
+	}
+
+	to {
+		transform: rotate(3.5deg);
+	}
+}
+
+@keyframes hl-swing {
+	from {
+		transform: rotate(-6deg);
+	}
+
+	to {
+		transform: rotate(6deg);
+	}
+}
+
+@keyframes hl-bob {
+	from {
+		transform: translateY(0) rotate(-3deg);
+	}
+
+	to {
+		transform: translateY(-4px) rotate(3deg);
+	}
+}
+
+@keyframes hl-flicker {
+	from {
+		transform: scale(1, 1) rotate(-2deg);
+	}
+
+	to {
+		transform: scale(0.94, 1.08) rotate(2deg);
+	}
+}
+
+@keyframes hl-wave {
+	from {
+		transform: skewY(-7deg) scaleX(1);
+	}
+
+	to {
+		transform: skewY(7deg) scaleX(0.9);
+	}
+}
+
+@keyframes hl-pulse {
+	from {
+		opacity: 0.55;
+		transform: scale(0.92);
+	}
+
+	to {
+		opacity: 1;
+		transform: scale(1.08);
+	}
+}
+
+@keyframes hl-breathe {
+	from {
+		transform: scale(1);
+	}
+
+	to {
+		transform: scale(1.05);
+	}
+}
+
+@keyframes hl-twinkle {
+	0%,
+	100% {
+		opacity: 0.55;
+		transform: scale(0.65) rotate(0deg);
+	}
+
+	50% {
+		opacity: 1;
+		transform: scale(1.12) rotate(18deg);
+	}
+}
+
+@keyframes hl-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes hl-blink {
+	0%,
+	93%,
+	100% {
+		transform: scaleY(1);
+	}
+
+	96% {
+		transform: scaleY(0.1);
+	}
+}
+
+@keyframes hl-ember {
+	from {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+
+	to {
+		opacity: 0;
+		transform: translateY(-22px) scale(0.4);
+	}
+}
+
+/** Glint sweeping up a blade or bullet, then a long rest. Rest state is invisible. */
+@keyframes hl-gleam {
+	0%,
+	58% {
+		opacity: 0;
+		transform: translateY(0) skewX(-22deg);
+	}
+
+	62% {
+		opacity: 0.85;
+	}
+
+	86% {
+		opacity: 0.85;
+	}
+
+	90%,
+	100% {
+		opacity: 0;
+		transform: translateY(-140px) skewX(-22deg);
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.hero-letter {
+	.hl-enter,
+	.hl-sway,
+	.hl-sway-slow,
+	.hl-flicker,
+	.hl-pulse,
+	.hl-twinkle,
+	.hl-spin,
+	.hl-spin-slow,
+	.hl-swing,
+	.hl-wave,
+	.hl-bob,
+	.hl-blink,
+	.hl-breathe,
+	.hl-ember,
+	.hl-gleam {
 		animation: none;
-		opacity: 1;
-		transform: none;
 	}
 }
 

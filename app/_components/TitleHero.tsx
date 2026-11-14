@@ -1,73 +1,70 @@
-"use client";
+import { SITE_TITLE } from "@constants";
 
-import { HERO_LETTER_COLORS, SITE_TITLE } from "@constants";
+import { HeroDefs } from "./hero/HeroDefs";
+import {
+	HERO_GLYPHS,
+	HERO_LAYOUT_STACKED,
+	HERO_LAYOUT_WIDE,
+} from "./hero/heroGlyphs";
+import type { ArchLayout } from "./hero/heroLayout";
+import { GLYPH_BASELINE } from "./hero/heroTheme";
 
-type HeroSegment =
-	| { id: string; kind: "space"; delayMs: number }
-	| {
-			id: string;
-			kind: "letter";
-			char: string;
-			color: string;
-			delayMs: number;
-	  };
+type HeroArtProps = {
+	layout: ArchLayout<keyof typeof HERO_GLYPHS | "space">;
+	className: string;
+};
 
-function buildHeroSegments(title: string): HeroSegment[] {
-	const segments: HeroSegment[] = [];
-	let colorIndex = 0;
+function HeroArt({ layout, className }: HeroArtProps) {
+	return (
+		<svg
+			aria-hidden="true"
+			focusable="false"
+			viewBox={layout.viewBox}
+			className={className}
+		>
+			{layout.items.map((item) => {
+				if (item.key === "space") {
+					return null;
+				}
 
-	for (let i = 0; i < title.length; i += 1) {
-		const char = title[i];
-		const id = `${char}-${i}`;
+				const { Component, entrance } = HERO_GLYPHS[item.key];
 
-		if (char === " ") {
-			segments.push({ id, kind: "space", delayMs: i * 45 });
-			continue;
-		}
-
-		segments.push({
-			id,
-			kind: "letter",
-			char,
-			color: HERO_LETTER_COLORS[colorIndex % HERO_LETTER_COLORS.length],
-			delayMs: i * 45,
-		});
-		colorIndex += 1;
-	}
-
-	return segments;
+				return (
+					<g
+						key={`${item.key}-${item.delayMs}`}
+						transform={`translate(${item.x.toFixed(2)} ${item.y.toFixed(2)}) rotate(${item.angle.toFixed(3)}) translate(${-item.width / 2} ${-GLYPH_BASELINE})`}
+					>
+						<g
+							className={`hl-enter hl-in-${entrance}`}
+							style={{ animationDelay: `${item.delayMs}ms` }}
+						>
+							<Component />
+						</g>
+					</g>
+				);
+			})}
+		</svg>
+	);
 }
 
-const HERO_SEGMENTS = buildHeroSegments(SITE_TITLE);
-
+/**
+ * Hero title. Every letter is hand-drawn SVG themed on the story (magic,
+ * Narnia, holy, military) and set on a shallow arch. Animation is CSS-only,
+ * so this stays a Server Component. The real title is exposed as text for assistive tech.
+ */
 export function TitleHero() {
 	return (
-		<h1 className="text-center font-semibold tracking-tight text-balance">
-			<span className="inline-flex flex-wrap items-baseline justify-center gap-x-[0.06em] gap-y-1 text-4xl leading-tight sm:text-5xl md:text-6xl lg:text-7xl">
-				{HERO_SEGMENTS.map((segment) =>
-					segment.kind === "space" ? (
-						<span
-							key={segment.id}
-							aria-hidden="true"
-							className="hero-letter w-[0.35em]"
-							style={{ animationDelay: `${segment.delayMs}ms` }}
-						>
-							{"\u00a0"}
-						</span>
-					) : (
-						<span
-							key={segment.id}
-							className="hero-letter"
-							style={{
-								color: segment.color,
-								animationDelay: `${segment.delayMs}ms`,
-							}}
-						>
-							{segment.char}
-						</span>
-					),
-				)}
-			</span>
+		<h1 className="w-full text-center">
+			<span className="sr-only">{SITE_TITLE}</span>
+			<HeroDefs />
+			<HeroArt
+				layout={HERO_LAYOUT_WIDE}
+				className="mx-auto hidden h-auto w-full max-w-4xl overflow-visible md:block"
+			/>
+			<HeroArt
+				layout={HERO_LAYOUT_STACKED}
+				className="mx-auto block h-auto w-full max-w-md overflow-visible md:hidden"
+			/>
 		</h1>
 	);
 }
