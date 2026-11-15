@@ -8,6 +8,16 @@ export const SITE_URL = "https://magicandmilitary.com";
 export const SITE_DESCRIPTION =
 	"Read Magic and Military — an ongoing manga story, chapter by chapter.";
 
+/** Stripe Payment Link (live mode, supporter chooses the amount). */
+export const SUPPORT_URL = "https://buy.stripe.com/aFa8wJ2fAfQT55L2rO6wE00";
+
+export type SupportSource = "chapter-end" | "footer";
+
+/** Support link tagged with where it was clicked; Stripe shows it as the payment's client reference. */
+export function getSupportHref(source: SupportSource): string {
+	return `${SUPPORT_URL}?client_reference_id=${source}`;
+}
+
 export type SocialLink = {
 	name: string;
 	href: string;
