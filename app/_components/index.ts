@@ -1,5 +1,6 @@
 export { BookmarkList } from "./BookmarkList";
 export { ChapterList } from "./ChapterList";
+export { ChapterText } from "./ChapterText";
 export { ConsentBanner } from "./ConsentBanner";
 export { ProtectedReader, type ReaderPage } from "./ProtectedReader";
 export { SiteFooter } from "./SiteFooter";

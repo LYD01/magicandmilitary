@@ -2,8 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { ProtectedReader, SiteFooter, SupportCard } from "@components";
+import {
+	ChapterText,
+	ProtectedReader,
+	SiteFooter,
+	SupportCard,
+} from "@components";
+import { IMAGES_ENABLED } from "@constants";
 import { getChapterPages } from "@/lib/chapterManifest";
+import { getChapterText } from "@/lib/chapterText";
 import {
 	getPublishedChapter,
 	getPublishedChapters,
@@ -32,7 +39,8 @@ export default async function ChapterPage({ params }: PageProps<"/[chapter]">) {
 	const chapter = chapters[index];
 	const previous = chapters[index - 1];
 	const next = chapters[index + 1];
-	const pages = getChapterPages(slug);
+	const pages = IMAGES_ENABLED ? getChapterPages(slug) : [];
+	const text = IMAGES_ENABLED ? undefined : await getChapterText(slug);
 
 	return (
 		<div className="flex min-h-full flex-1 flex-col bg-canvas">
@@ -53,8 +61,13 @@ export default async function ChapterPage({ params }: PageProps<"/[chapter]">) {
 						<ProtectedReader chapterSlug={slug} pages={pages} />
 						<SupportCard />
 					</>
+				) : text ? (
+					<>
+						<ChapterText markdown={text} />
+						<SupportCard />
+					</>
 				) : (
-					<p className="text-base">Pages for this chapter are coming soon.</p>
+					<p className="text-base">Chapter coming soon.</p>
 				)}
 				<nav
 					aria-label="Chapter navigation"

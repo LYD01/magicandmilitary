@@ -666,3 +666,42 @@ body {
 	white-space: nowrap;
 	border-width: 0;
 }
+
+/** Chapter prose (text-only reader). Colors come from theme tokens for contrast. */
+.chapter-text {
+	width: 100%;
+	max-width: 38rem;
+	margin-inline: auto;
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: 1.125rem;
+	line-height: 1.8;
+}
+
+.chapter-text p {
+	margin: 0 0 1.25em;
+}
+
+.chapter-text h2,
+.chapter-text h3 {
+	margin: 2em 0 0.75em;
+	font-weight: 600;
+	line-height: 1.3;
+}
+
+.chapter-text-break {
+	margin: 2em auto;
+	width: 6rem;
+	border: 0;
+	border-top: 1px solid currentColor;
+	opacity: 0.6;
+}
+
+.chapter-text a {
+	text-decoration: underline;
+}
+
+@media (min-width: 640px) {
+	.chapter-text {
+		font-size: 1.25rem;
+	}
+}
