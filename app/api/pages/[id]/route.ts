@@ -1,3 +1,4 @@
+import { IMAGES_ENABLED } from "@constants";
 import { findPage } from "@/lib/chapterManifest";
 import { getPublishedChapter } from "@/lib/publishedChapters";
 import { fetchPageImage } from "@/lib/uploadthing";
@@ -16,6 +17,10 @@ export async function GET(
 	request: Request,
 	ctx: RouteContext<"/api/pages/[id]">,
 ) {
+	if (!IMAGES_ENABLED) {
+		return notFound();
+	}
+
 	// Deterrent against hotlinking and direct navigation. Browsers set this
 	// header; non-browser clients can spoof it, so it is not access control.
 	const fetchSite = request.headers.get("sec-fetch-site");

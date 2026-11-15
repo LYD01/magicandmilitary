@@ -1,4 +1,5 @@
 import { BookmarkList, ChapterList, SiteFooter, TitleHero } from "@components";
+import { IMAGES_ENABLED } from "@constants";
 import { getPublishedChapters } from "@/lib/publishedChapters";
 
 export default async function Home() {
@@ -9,13 +10,15 @@ export default async function Home() {
 			<main className="flex flex-1 flex-col items-center px-4 pb-6 pt-4 sm:px-6 sm:pt-6">
 				<div className="flex w-full max-w-4xl flex-col items-center gap-12 sm:gap-14 md:gap-16">
 					<TitleHero />
-					<BookmarkList
-						chapters={chapters.map(({ slug, label, pageCount }) => ({
-							slug,
-							label,
-							pageCount,
-						}))}
-					/>
+					{IMAGES_ENABLED ? (
+						<BookmarkList
+							chapters={chapters.map(({ slug, label, pageCount }) => ({
+								slug,
+								label,
+								pageCount,
+							}))}
+						/>
+					) : null}
 					<ChapterList
 						publishedSlugs={chapters.map((chapter) => chapter.slug)}
 					/>

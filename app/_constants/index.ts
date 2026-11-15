@@ -1,4 +1,5 @@
 export { CHAPTERS, type Chapter } from "./chapters";
+export { IMAGES_ENABLED } from "./features";
 export {
 	SITE_DESCRIPTION,
 	SITE_TITLE,
