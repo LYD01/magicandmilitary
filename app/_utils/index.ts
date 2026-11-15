@@ -6,3 +6,11 @@ export {
 	type ConsentChoice,
 	REGION_COOKIE,
 } from "./consent";
+export {
+	THEME_INIT_SCRIPT,
+	THEME_STORAGE_KEY,
+	type ThemePreference,
+	applyTheme,
+	readStoredTheme,
+	resolveTheme,
+} from "./theme";

@@ -49,13 +49,13 @@ export function ConsentBanner() {
 	return (
 		<section
 			aria-label="Cookie consent"
-			className="fixed right-3 bottom-3 z-50 w-[min(20rem,calc(100vw-1.5rem))] rounded border border-neutral-500 bg-white p-3 pr-9 text-sm text-neutral-900 shadow-md [text-shadow:none]"
+			className="fixed right-3 bottom-3 z-50 w-[min(20rem,calc(100vw-1.5rem))] rounded border border-foreground/25 bg-canvas p-3 pr-9 text-sm text-foreground shadow-md [text-shadow:none]"
 		>
 			<button
 				type="button"
 				onClick={dismiss}
 				aria-label="Dismiss cookie notice"
-				className="absolute top-1 right-1 flex size-7 items-center justify-center rounded text-lg leading-none font-bold text-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700"
+				className="absolute top-1 right-1 flex size-7 items-center justify-center rounded text-lg leading-none font-bold text-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700 dark:text-red-400 dark:focus-visible:outline-red-400"
 			>
 				<span aria-hidden="true">×</span>
 			</button>
@@ -66,14 +66,14 @@ export function ConsentBanner() {
 				<button
 					type="button"
 					onClick={() => choose("denied")}
-					className="min-h-8 flex-1 rounded border border-neutral-700 bg-white px-2 py-1 text-neutral-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900"
+					className="min-h-8 flex-1 rounded border border-foreground/40 bg-canvas px-2 py-1 text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
 				>
 					Reject non-essential
 				</button>
 				<button
 					type="button"
 					onClick={() => choose("granted")}
-					className="min-h-8 flex-1 rounded border border-neutral-900 bg-neutral-900 px-2 py-1 text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900"
+					className="min-h-8 flex-1 rounded border border-foreground bg-foreground px-2 py-1 text-canvas focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
 				>
 					Accept all
 				</button>

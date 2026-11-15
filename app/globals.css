@@ -1,8 +1,21 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
 	--canvas: #f6f4ef;
 	--foreground: #1a1a1a;
+	--hero-ink: #1b2117;
+	--link: #0000ee;
+	color-scheme: light;
+}
+
+html.dark {
+	--canvas: #45433d;
+	--foreground: #e8e4dc;
+	--hero-ink: #e0ddd4;
+	--link: #8ab4ff;
+	color-scheme: dark;
 }
 
 @theme inline {
@@ -396,7 +409,7 @@ body {
 
 /** Classic web link: blue, underlined; underline removed on hover/focus. */
 .link-classic {
-	color: #0000ee;
+	color: var(--link);
 	text-decoration: underline;
 	text-underline-offset: 2px;
 }
@@ -596,7 +609,7 @@ body {
 	min-height: 2rem;
 	padding: 0 0.5rem;
 	font-size: 0.875rem;
-	color: #1a1a1a;
+	color: var(--foreground);
 	text-decoration: underline;
 	text-underline-offset: 2px;
 	background: transparent;

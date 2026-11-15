@@ -1,7 +1,7 @@
 /** Shared constants for the hand-drawn hero letters. */
 
-/** Dark outline on every glyph: keeps each letter readable (3:1+) on the off-white canvas. */
-export const INK = "#1b2117";
+/** Outline on every glyph: tracks `--hero-ink` for light / dark canvas (3:1+). */
+export const INK = "var(--hero-ink)";
 
 /** Local y of the text baseline inside every glyph's coordinate space. */
 export const GLYPH_BASELINE = 130;

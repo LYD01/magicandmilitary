@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 
-import { ConsentBanner } from "@components";
+import { ConsentBanner, SiteHeader } from "@components";
 import { SITE_DESCRIPTION, SITE_TITLE } from "@constants";
-import { CONSENT_INIT_SCRIPT } from "@utils";
+import { CONSENT_INIT_SCRIPT, THEME_INIT_SCRIPT } from "@utils";
 
 import "./globals.css";
 
@@ -37,7 +37,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 		<html
 			lang="en"
 			className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+			suppressHydrationWarning
 		>
+			{/* AdSense injects its own <script> into <head> before hydration; suppress the resulting mismatch. */}
+			<head suppressHydrationWarning>
+				<script
+					suppressHydrationWarning
+					// biome-ignore lint/security/noDangerouslySetInnerHtml: theme init before paint
+					dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }}
+				/>
+			</head>
 			<body className="min-h-full flex flex-col">
 				<Script id="gtm-init" strategy="afterInteractive">
 					{CONSENT_INIT_SCRIPT}
@@ -52,6 +61,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 					src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
 					crossOrigin="anonymous"
 				/>
+				<SiteHeader />
 				{children}
 				<ConsentBanner />
 			</body>
