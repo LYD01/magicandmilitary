@@ -2,3 +2,8 @@ allowBuilds:
   msgpackr-extract: false
   sharp: false
   unrs-resolver: false
+
+overrides:
+  "@effect/platform": "^0.97.2"
+  effect: "^3.22.4"
+  minimatch: "^11.0.1"
