@@ -1,4 +1,4 @@
-import { SOCIAL_LINKS } from "@constants";
+import { SOCIAL_LINKS, getSupportHref } from "@constants";
 
 function SocialIcon({ name }: { name: string }) {
 	switch (name) {
@@ -43,6 +43,17 @@ function SocialIcon({ name }: { name: string }) {
 export function SiteFooter() {
 	return (
 		<footer className="w-full px-4 pb-8 pt-10 sm:px-6">
+			<p className="mb-4 text-center">
+				<a
+					className="link-classic inline-block py-2"
+					href={getSupportHref("footer")}
+					rel="noopener noreferrer"
+					target="_blank"
+				>
+					Support the story
+					<span className="sr-only"> (opens in a new tab)</span>
+				</a>
+			</p>
 			<nav aria-label="Social media">
 				<ul className="flex flex-wrap items-center justify-center gap-6">
 					{SOCIAL_LINKS.map((link) => (

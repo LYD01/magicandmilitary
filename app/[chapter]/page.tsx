@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { ProtectedReader, SiteFooter } from "@components";
+import { ProtectedReader, SiteFooter, SupportCard } from "@components";
 import { getChapterPages } from "@/lib/chapterManifest";
 import {
 	getPublishedChapter,
@@ -51,6 +51,7 @@ export default async function ChapterPage({ params }: PageProps<"/[chapter]">) {
 							Pages are hidden while this tab is in the background.
 						</p>
 						<ProtectedReader chapterSlug={slug} pages={pages} />
+						<SupportCard />
 					</>
 				) : (
 					<p className="text-base">Pages for this chapter are coming soon.</p>
